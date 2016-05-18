@@ -1,0 +1,45 @@
+#! /bin/bash
+
+pwd="$(pwd)"
+
+if [ $pwd != $GOPATH ]; then
+	path_remove=$GOPATH/bin
+	path_add=$pwd/bin
+
+	#echo [PATH Before]
+	#echo $PATH
+	path_new=
+	d=
+
+	for path in $(echo $PATH | tr ":" "\n")
+	do
+		#echo "path=$path"
+		#echo "path_new=$path_new"
+		if [ -z $path_new ]; then
+			d=''
+		else
+			d=:
+		fi
+		#echo "d=$d"
+		if [ $path = $path_remove ]; then
+			path_new+=$d$path_add
+		else
+			path_new+=$d$path
+		fi
+	done
+ 
+	export PATH=$path_new
+	#echo [PATH After]
+	#echo $PATH
+	export GOPATH_OLD=$GOPATH
+	export GOPATH=$pwd
+fi
+
+#arrPath=(${PATH//:/\\n})
+#for path in $arrPath
+#for path in $(echo $PATH | tr ":" "\n")
+#do
+#	echo $path
+#	echo 
+#done
+
