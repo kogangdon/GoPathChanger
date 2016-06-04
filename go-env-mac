@@ -10,6 +10,7 @@ if [ $pwd != $GOPATH ]; then
 	#echo $PATH
 	path_new=
 	d=
+	change=
 
 	for path in $(echo $PATH | tr ":" "\n")
 	do
@@ -23,10 +24,15 @@ if [ $pwd != $GOPATH ]; then
 		#echo "d=$d"
 		if [ $path = $path_remove ]; then
 			path_new+=$d$path_add
+			change=1
 		else
 			path_new+=$d$path
 		fi
 	done
+
+	if [ -z $change ]; then
+		path_new+=$d$path_add
+	fi
  
 	export PATH=$path_new
 	#echo [PATH After]
